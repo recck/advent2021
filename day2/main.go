@@ -18,6 +18,26 @@ func (sub Submarine) calculate() int {
 	return sub.depth * sub.horizontal
 }
 
+func (sub *Submarine) handleForward(value int, handleAim bool) {
+	sub.horizontal += value
+	if handleAim {
+		sub.depth += sub.aim * value
+	}
+}
+
+func (sub *Submarine) handleVertical(value int, isUp bool, handleAim bool) {
+	modifier := 1
+	if isUp {
+		modifier = -1
+	}
+
+	if handleAim {
+		sub.aim += value * modifier
+	} else {
+		sub.depth += value * modifier
+	}
+}
+
 func main() {
 	fileName := os.Args[1]
 
@@ -45,24 +65,10 @@ func updateSubmarine(sub *Submarine, line string, handleAim bool) {
 
 	switch direction {
 	case "forward":
-		sub.horizontal += num
-		if handleAim {
-			sub.depth += sub.aim * num
-		}
+		sub.handleForward(num, handleAim)
 		break
-	case "up":
-		if handleAim {
-			sub.aim -= num
-		} else {
-			sub.depth -= num
-		}
-		break
-	case "down":
-		if handleAim {
-			sub.aim += num
-		} else {
-			sub.depth += num
-		}
+	case "up", "down":
+		sub.handleVertical(num, direction == "up", handleAim)
 		break
 	}
 }
