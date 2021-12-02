@@ -9,13 +9,13 @@ import (
 func main() {
 	fileName := os.Args[1]
 
-	lines := util.ReadFileReturnArrayInts(fileName)
+	lines := util.ReadFileIntoIntSlice(fileName)
 
 	increasesP1 := 0
 	prevP1 := lines[0]
 
 	increasesP2 := 0
-	prevP2 := util.ArraySum(lines[0:3])
+	prevP2 := util.SliceSum(lines[0:3])
 	maxLen := len(lines)
 
 	for i, v := range lines {
@@ -29,7 +29,7 @@ func main() {
 		// part 2
 		leftBound := i
 		rightBound := util.IntMin(maxLen, leftBound + 3)
-		window := util.ArraySum(lines[leftBound:rightBound])
+		window := util.SliceSum(lines[leftBound:rightBound])
 		if window > prevP2 {
 			increasesP2++
 		}

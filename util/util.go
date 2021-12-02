@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func check(e error) {
+func Check(e error) {
 	if e != nil {
 		panic(e)
 	}
@@ -14,12 +14,12 @@ func check(e error) {
 
 func ReadFileAllAtOnce(fileName string) string {
 	contents, err := os.ReadFile(fileName)
-	check(err)
+	Check(err)
 
 	return strings.TrimSpace(string(contents))
 }
 
-func ReadFileReturnArray(fileName string, delim ...string) []string {
+func ReadFileIntoSlice(fileName string, delim ...string) []string {
 	contents := ReadFileAllAtOnce(fileName)
 	var splitter = "\n"
 
@@ -30,26 +30,26 @@ func ReadFileReturnArray(fileName string, delim ...string) []string {
 	return strings.Split(contents, splitter)
 }
 
-func ReadFileReturnArrayInts(fileName string, delim ...string) []int {
+func ReadFileIntoIntSlice(fileName string, delim ...string) []int {
 	var splitter = "\n"
 
 	if len(delim) > 0 {
 		splitter = delim[0]
 	}
 
-	lines := ReadFileReturnArray(fileName, splitter)
+	lines := ReadFileIntoSlice(fileName, splitter)
 	intArray := make([]int, len(lines))
 
 	for i, v := range lines {
 		vInt, err := strconv.Atoi(v)
-		check(err)
+		Check(err)
 		intArray[i] = vInt
 	}
 
 	return intArray
 }
 
-func ArraySum(input []int) int {
+func SliceSum(input []int) int {
 	total := 0
 
 	for _, v := range input {
