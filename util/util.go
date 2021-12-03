@@ -66,3 +66,9 @@ func IntMin(x int, y int) int {
 
 	return x
 }
+
+func BinDec(bin string) int64 {
+	dec, err := strconv.ParseInt(bin, 2, 64)
+	Check(err)
+	return dec
+}

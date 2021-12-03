@@ -4,7 +4,6 @@ import (
 	"advent2021/util"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -15,12 +14,10 @@ func main() {
 
 	width, diagnostics := generateDiagnostics(lines)
 	powerConsumption := computePowerConsumption(width, diagnostics)
-	oxygenRating := computeOxygenGeneratorRating(lines, width, diagnostics)
-	co2Rating := computeCO2Rating(lines, width, diagnostics)
+	oxygenRating := computeRating(lines, diagnostics, "oxygen")
+	co2Rating := computeRating(lines, diagnostics, "co2")
 
 	fmt.Printf("Part 1 - Power Consumption: %d\n", powerConsumption)
-	fmt.Printf("Part 2 - Oxygen Rating: %d\n", oxygenRating)
-	fmt.Printf("Part 2 - CO2 Rating: %d\n", co2Rating)
 	fmt.Printf("Part 2 - Life Support Rating: %d\n", oxygenRating * co2Rating)
 }
 
@@ -54,50 +51,31 @@ func computePowerConsumption(width int, bits map[int]map[string]int) int64 {
 		}
 	}
 
-	gammaDec, _ := strconv.ParseInt(strings.Join(gamma, ""), 2, 64)
-	epsilonDec, _ := strconv.ParseInt(strings.Join(epsilon, ""), 2, 64)
-
-	return gammaDec * epsilonDec
+	return util.BinDec(strings.Join(gamma, "")) * util.BinDec(strings.Join(epsilon, ""))
 }
 
-func computeOxygenGeneratorRating(bits []string, width int, diagnostics map[int]map[string]int) int64 {
-	index := 0
-
-	for len(bits) != 1 {
-		var curMatches []string
-
-		bitMatch := "0"
+func getBitMatch(diagnostics map[int]map[string]int, index int, rating string) string {
+	bitMatch := ""
+	if rating == "oxygen" {
+		bitMatch = "0"
 		if diagnostics[index]["1"] >= diagnostics[index]["0"] {
 			bitMatch = "1"
 		}
-
-		for _, bit := range bits {
-			if string(bit[index]) == bitMatch {
-				curMatches = append(curMatches, bit)
-			}
-		}
-
-		bits = curMatches
-		_, diagnostics = generateDiagnostics(bits)
-		index++
-		index = util.IntMin(index, width)
-	}
-
-	oxygenDec, _ := strconv.ParseInt(bits[0], 2, 64)
-
-	return oxygenDec
-}
-
-func computeCO2Rating(bits []string, width int, diagnostics map[int]map[string]int) int64 {
-	index := 0
-
-	for len(bits) != 1 {
-		var curMatches []string
-
-		bitMatch := "1"
+	} else {
+		bitMatch = "1"
 		if diagnostics[index]["0"] <= diagnostics[index]["1"] {
 			bitMatch = "0"
 		}
+	}
+
+	return bitMatch
+}
+
+func computeRating(bits []string, diagnostics map[int]map[string]int, rating string) int64 {
+	var curMatches []string
+
+	for index := 0; len(bits) != 1 && index < len(bits[0]); index++ {
+		bitMatch := getBitMatch(diagnostics, index, rating)
 
 		for _, bit := range bits {
 			if string(bit[index]) == bitMatch {
@@ -107,11 +85,7 @@ func computeCO2Rating(bits []string, width int, diagnostics map[int]map[string]i
 
 		bits = curMatches
 		_, diagnostics = generateDiagnostics(bits)
-		index++
-		index = util.IntMin(index, width)
 	}
 
-	oxygenDec, _ := strconv.ParseInt(bits[0], 2, 64)
-
-	return oxygenDec
+	return util.BinDec(bits[0])
 }
