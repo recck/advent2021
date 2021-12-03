@@ -72,9 +72,8 @@ func getBitMatch(diagnostics map[int]map[string]int, index int, rating string) s
 }
 
 func computeRating(bits []string, diagnostics map[int]map[string]int, rating string) int64 {
-	var curMatches []string
-
 	for index := 0; len(bits) != 1 && index < len(bits[0]); index++ {
+		var curMatches []string
 		bitMatch := getBitMatch(diagnostics, index, rating)
 
 		for _, bit := range bits {
