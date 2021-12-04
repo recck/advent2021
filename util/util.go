@@ -30,6 +30,20 @@ func ReadFileIntoSlice(fileName string, delim ...string) []string {
 	return strings.Split(contents, splitter)
 }
 
+func RemoveBlankLines(lines []string) []string {
+	var output []string
+
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+
+		output = append(output, strings.TrimSpace(line))
+	}
+
+	return output
+}
+
 func ReadFileIntoIntSlice(fileName string, delim ...string) []int {
 	var splitter = "\n"
 
@@ -41,6 +55,26 @@ func ReadFileIntoIntSlice(fileName string, delim ...string) []int {
 	intArray := make([]int, len(lines))
 
 	for i, v := range lines {
+		vInt, err := strconv.Atoi(v)
+		Check(err)
+		intArray[i] = vInt
+	}
+
+	return intArray
+}
+
+func SplitIntoIntSlice(line string, delim ...string) []int {
+	var splitter = " "
+
+	if len(delim) > 0 {
+		splitter = delim[0]
+	}
+
+	values := strings.Split(line, splitter)
+
+	intArray := make([]int, len(values))
+
+	for i, v := range values {
 		vInt, err := strconv.Atoi(v)
 		Check(err)
 		intArray[i] = vInt
