@@ -101,6 +101,22 @@ func IntMin(x int, y int) int {
 	return x
 }
 
+func IntMax(x int, y int) int {
+	if x > y {
+		return x
+	}
+
+	return y
+}
+
+func IntAbs(i int) int {
+	if i < 0 {
+		return i * -1
+	}
+
+	return i
+}
+
 func BinDec(bin string) int64 {
 	dec, err := strconv.ParseInt(bin, 2, 64)
 	Check(err)
