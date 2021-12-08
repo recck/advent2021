@@ -2,6 +2,7 @@ package util
 
 import (
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -121,4 +122,56 @@ func BinDec(bin string) int64 {
 	dec, err := strconv.ParseInt(bin, 2, 64)
 	Check(err)
 	return dec
+}
+
+func IntSliceContains(slice []int, check int) bool {
+	for _, v := range slice {
+		if v == check {
+			return true
+		}
+	}
+
+	return false
+}
+
+func StringSliceContains(slice []string, check string) bool {
+	for _, v := range slice {
+		if v == check {
+			return true
+		}
+	}
+
+	return false
+}
+
+func StringSubSlice(sliceA []string, sliceB []string) bool {
+	for _, v := range sliceA {
+		if !StringSliceContains(sliceB, v) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func StringContainsLetters(stringA string, stringB string) bool {
+	return StringSubSlice(strings.Split(stringA, ""), strings.Split(stringB, ""))
+}
+
+func MatchingCharacters(stringA string, stringB string) int {
+	total := 0
+
+	for _, c := range strings.Split(stringA, "") {
+		if strings.Contains(stringB, c) {
+			total++
+		}
+	}
+
+	return total
+}
+
+func SortString(input string) string {
+	s := strings.Split(input, "")
+	sort.Strings(s)
+	return strings.Join(s, "")
 }
