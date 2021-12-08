@@ -121,36 +121,16 @@ func parseInput(input []string) []Signal {
 
 func getNumbers() []Number {
 	numbers := make([]Number, 10)
-	numbers[0] = Number{
-		totalSegments: 6,
-	}
-	numbers[1] = Number{
-		totalSegments: 2,
-	}
-	numbers[2] = Number{
-		totalSegments: 5,
-	}
-	numbers[3] = Number{
-		totalSegments: 5,
-	}
-	numbers[4] = Number{
-		totalSegments: 4,
-	}
-	numbers[5] = Number{
-		totalSegments: 5,
-	}
-	numbers[6] = Number{
-		totalSegments: 6,
-	}
-	numbers[7] = Number{
-		totalSegments: 3,
-	}
-	numbers[8] = Number{
-		totalSegments: 7,
-	}
-	numbers[9] = Number{
-		totalSegments: 6,
-	}
+	numbers[0] = Number{totalSegments: 6}
+	numbers[1] = Number{totalSegments: 2}
+	numbers[2] = Number{totalSegments: 5}
+	numbers[3] = Number{totalSegments: 5}
+	numbers[4] = Number{totalSegments: 4}
+	numbers[5] = Number{totalSegments: 5}
+	numbers[6] = Number{totalSegments: 6}
+	numbers[7] = Number{totalSegments: 3}
+	numbers[8] = Number{totalSegments: 7}
+	numbers[9] = Number{totalSegments: 6}
 
 	return numbers
 }
