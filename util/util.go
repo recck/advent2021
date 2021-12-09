@@ -94,6 +94,16 @@ func SliceSum(input []int) int {
 	return total
 }
 
+func SliceProduct(input []int) int {
+	total := 1
+
+	for _, v := range input {
+		total *= v
+	}
+
+	return total
+}
+
 func IntMin(x int, y int) int {
 	if x > y {
 		return y
